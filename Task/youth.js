@@ -49,9 +49,19 @@ https:\/\/ios\.baertt\.com\/v5\/user\/app_stay\.json url script-request-body you
 [MITM]
 hostname = *.youth.cn, ios.baertt.com 
 ~~~~~~~~~~~~~~~~
-let s = 1000 //各数据接口延迟
+*/
+/*
+更新时间: 2021-02-17 09:30
+赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
+本脚本仅适用于中青看点极速版领取青豆
+食用说明请查看本仓库目录Taskconf/youth/readme.md，其中打卡挑战赛可通过Boxjs开关，报名时间为23点，早起打卡时间为早5点，报名需1000青豆押金，打卡成功可返1000+青豆，打卡失败则押金不予返还，请注意时间运行，
+转发文章获得青豆不实，请无视
+
+*/
+
 const $ = new Env("中青看点")
 let notifyInterval = $.getdata("notifytimes")||50 //通知间隔，默认抽奖每50次通知一次，如需关闭全部通知请设为0
+let s = $.getdata('delay_rotary_zq')||"10" //转盘延迟时间
 const notify = $.isNode() ? require('./sendNotify') : '';
 const ONCard = $.getdata('zqcard')||"false" //早起打卡开关
 const withdrawcash = $.getdata('zqcash')||30 //提现金额
@@ -62,6 +72,7 @@ let ARTBODYs = $.getdata('read_zq');
 let READTIME = $.getdata('readtime_zq');
 let cardTime = $.getdata('zqtime')||"05";//打卡时间
 let rotaryscore=0,doublerotary=0; 
+
 let cookieArr = [], cookie = '',
     readArr = [], articlebodyVal ='',
     timeArr = [], timebodyVal = '',
@@ -125,6 +136,7 @@ if (isGetCookie = typeof $request !== 'undefined') {
     $.msg($.name, '【提示】请先获取中青看点一cookie',"",{'open-url': "https://kandian.youth.cn/u/mhkjN"})
     return;
   }
+
   for (let i = 0; i < cookieArr.length; i++) {
     if (cookieArr[i]) {
       cookie = cookieArr[i];
@@ -142,18 +154,21 @@ if (isGetCookie = typeof $request !== 'undefined') {
     await getAdVideo();
     await gameVideo();
     await readArticle();
+  $.log("开始转盘抽奖任务")
 for (k=0;k<5;k++){
-  await $.wait(2000);
+  await $.wait(s*1000);
   await rotary();
+
 if (rotaryres.status == 0) {
       rotarynum = ` 转盘${rotaryres.msg}🎉`;
       break
    } else if(rotaryres.status == 1){
-     console.log("等待2s进行开始转盘任务")
+     console.log("等待"+s+"秒进行开始转盘任务")
      rotaryscore += rotaryres.data.score
      rotarytimes = rotaryres.data.remainTurn
   }
 }
+
 if (rotaryres.status == 1) {
   detail += `【转盘抽奖】+${rotaryscore}个青豆 剩余${rotaryres.data.remainTurn}次\n`;
   $.log(`转盘抽奖: 共计+${rotaryscore}个青豆 剩余${rotaryres.data.remainTurn}次`)
@@ -682,7 +697,8 @@ function rotary() {
         if (rotaryres.status==1){
            $.log("进行"+Number(100-rotaryres.data.remainTurn)+"次转盘，获得"+rotaryres.data.score+"青豆")
          if(rotaryres.data.score != 0&&rotaryres.data.doubleNum!=0){
-           await $.wait(5000);
+          $.log("等待10s，获得双倍青豆")
+           await $.wait(10000);
            await TurnDouble();
           }
           await rotaryCheck();
