@@ -64,6 +64,7 @@ https:\/\/ios\.baertt\.com\/v5\/user\/app_stay\.json url script-request-body you
 [MITM]
 hostname = *.youth.cn, ios.baertt.com 
 ~~~~~~~~~~~~~~~~
+*/
 
 let s = 1000 //各数据接口延迟
 const $ = new Env("中青看点")
