@@ -50,14 +50,6 @@ https:\/\/ios\.baertt\.com\/v5\/user\/app_stay\.json url script-request-body you
 hostname = *.youth.cn, ios.baertt.com 
 ~~~~~~~~~~~~~~~~
 */
-/*
-更新时间: 2021-02-17 09:30
-赞赏:中青邀请码`46308484`,农妇山泉 -> 有点咸，万分感谢
-本脚本仅适用于中青看点极速版领取青豆
-食用说明请查看本仓库目录Taskconf/youth/readme.md，其中打卡挑战赛可通过Boxjs开关，报名时间为23点，早起打卡时间为早5点，报名需1000青豆押金，打卡成功可返1000+青豆，打卡失败则押金不予返还，请注意时间运行，
-转发文章获得青豆不实，请无视
-
-*/
 
 const $ = new Env("中青看点")
 let notifyInterval = $.getdata("notifytimes")||50 //通知间隔，默认抽奖每50次通知一次，如需关闭全部通知请设为0
